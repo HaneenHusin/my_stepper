@@ -20,15 +20,20 @@ import MyFirstStep from "../components/MyFirstStep";
 import MySecondStep from "../components/MySecondStep";
 import ThirdStep from "../components/ThirdStep";
 import Success from "../components/Success";
+import {myStepperState} from "../atoms/MyStepperAtom";
 
 function Home() {
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const [formStep, setFormStep] = useRecoilState(formStepState);
+    const [stepperState, setStepperState] = useRecoilState(myStepperState);
     const [form, setForm] = useRecoilState(formInputState);
 
     function resetForm() {
         onOpen();
-        setFormStep({page: 0, status: [false, false, false],})
+        setStepperState({
+            page: 0, forward: false,
+            backward: false, forwardText: 'Next',
+            backwardText: 'Back',
+        })
         setForm({
             name: '',
             country: '',
@@ -67,7 +72,7 @@ function Home() {
             >
                 <ModalOverlay/>
                 <ModalContent>
-                    {formStep.page === 4 ? (
+                    {stepperState.page === 3 ? (
                         <ModalCloseButton/>
                     ) : null}
 
