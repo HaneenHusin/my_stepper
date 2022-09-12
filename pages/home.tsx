@@ -54,7 +54,6 @@ function Home() {
             </Center>
             <Center>
                 <Button
-                    type='button'
                     onClick={resetForm}
                 >
                     OPEN MODEL
@@ -68,7 +67,10 @@ function Home() {
             >
                 <ModalOverlay/>
                 <ModalContent>
-                    <ModalCloseButton/>
+                    {formStep.page === 4 ? (
+                        <ModalCloseButton/>
+                    ) : null}
+
                     <ModalBody>
                         <MyStepper>
                             <MyFirstStep></MyFirstStep>

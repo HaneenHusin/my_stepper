@@ -3,6 +3,7 @@ import {Button, Center, Radio, RadioGroup, Stack, VStack, Flex} from "@chakra-ui
 import React from "react";
 import {myStepperState} from "../atoms/MyStepperAtom";
 
+
 // @ts-ignore
 function MyStepper({children}) {
     const [myState, setMyState] = useRecoilState(myStepperState);
@@ -16,11 +17,13 @@ function MyStepper({children}) {
     }
 
     let onForwardPressed = () => {
-        setMyState({
-            ...myState,
-            page: myState.page + 1,
-            forward: false
-        });
+        if (myState.page < children.length - 1) {
+            setMyState({
+                ...myState,
+                page: myState.page + 1,
+                forward: false
+            });
+        }
 
     }
 
@@ -35,17 +38,17 @@ function MyStepper({children}) {
                             onClick={onForwardPressed}
                             hidden={myState.page === 3}
                             disabled={!myState.forward}
-                            _hover={{bg: "brand.hoverorange"}}
+                            _hover={{bg: '#FF6C1E'}}
                         >
                             {myState.forwardText}
                         </Button>
                         <Button
                             onClick={onBackPressed}
-                            hidden={myState.page === 0}
+                            hidden={myState.page === 0 ||myState.page === 3}
                             disabled={!myState.backward}
-                            bg={'white'}
-                            color={'brand.hovergray'}
-                            _hover={{bg: 'brand.hovergray', color: 'white'}}
+                            bg={'#ffff'}
+                            color={'#262626'}
+                            _hover={{bg: '#7b7a7e', color: '#ffff'}}
                         >
                             {myState.backwardText}
                         </Button>
@@ -60,9 +63,10 @@ function MyStepper({children}) {
                 >
                     <RadioGroup value={`${myState.page}`} defaultValue='0'>
                         <Stack direction='row'>
-                            <Radio isInvalid value='0' colorScheme='orange'></Radio>
-                            <Radio isInvalid value='1' colorScheme='orange'></Radio>
-                            <Radio isInvalid value='2' colorScheme='orange'></Radio>
+                            {children.map((val, index) => (
+                                <Radio isInvalid value={`${index}`} colorScheme='orange'></Radio>
+                            ))}
+
                         </Stack>
                     </RadioGroup>
                 </Flex>
